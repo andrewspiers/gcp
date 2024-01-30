@@ -8,9 +8,14 @@ import click
 from google.cloud import storage
 
 
-@click.command()
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
 @click.argument("conf", default="SPECIAL_NONE_PROVIDED")
-def activate(conf):
+def context(conf):
     """gcloud context switcher"""
     cmd = "gcloud"
     if conf == "SPECIAL_NONE_PROVIDED":
@@ -25,8 +30,8 @@ def activate(conf):
     print(call.stderr.decode())
 
 
-@click.command()
-def gcs():
+@cli.command()
+def buckets():
     client = storage.Client()
     for bucket in client.list_buckets():
         print(bucket.name)
@@ -35,8 +40,8 @@ def gcs():
 if __name__ == "__main__":
     argv0 = os.path.basename(sys.argv[0])
     if argv0 == "gcp":
-        activate()
+        cli()
     if argv0 == "gcs":
-        gcs()
+        buckets()
     else:
         sys.exit(f"{sys.argv[0]} is not a recognized command.")
