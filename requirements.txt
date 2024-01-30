@@ -1,1 +1,2 @@
+google-cloud-build
 google-cloud-storage
