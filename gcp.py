@@ -2,6 +2,7 @@
 
 import json
 import os
+import random
 import subprocess
 import sys
 
@@ -15,6 +16,20 @@ from google.cloud.devtools import cloudbuild_v1
 @click.group()
 def cli():
     pass
+
+
+@cli.command(help="Invent numbers for service accounts.")
+@click.option("--digits", default=20)
+def account_number(digits):
+    prefix_char = "k"
+
+    def digit_str():
+        return str(random.randint(0, 9))
+
+    id = prefix_char
+    for c in range(digits):
+        id += digit_str()
+    click.echo(id)
 
 
 @cli.command()
